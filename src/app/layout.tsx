@@ -19,10 +19,10 @@ const fontStyle = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | PLogic",
-    default: "PLogic - Cloud and DevOps Solutions"
+    template: "%s | Oline Code Editor",
+    default: "Online Code Editor - Cloud and DevOps Solutions"
   },
-  description: "Professional cloud and DevOps services for businesses of all sizes.",
+  description: "Professional Online code editor for developers",
   keywords: ["DevOps", "Cloud", "CI/CD", "Infrastructure", "Cloud Migration"]
 };
 
