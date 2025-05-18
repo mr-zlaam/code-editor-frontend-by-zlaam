@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 import "../styles/custom.css";
 import "./globals.css";
 import React from "react";
+import { ENV, loadEnv } from "@/config/env.config";
+import { Toaster } from "sonner";
 
 const fontVariable = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -31,12 +33,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  loadEnv(ENV);
   return (
     <html
       lang="en"
       suppressHydrationWarning>
       <body className={`${fontVariable.variable} ${fontStyle.variable} antialiased`}>
-        <main>{children}</main>
+        <main>
+          <Toaster />
+          {children}
+        </main>
       </body>
     </html>
   );

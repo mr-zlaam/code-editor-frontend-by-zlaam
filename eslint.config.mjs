@@ -97,7 +97,7 @@ export default [
   // Common rules for all files
   {
     rules: {
-      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-console": ["warn", { allow: ["warn", "error", "info"] }],
       eqeqeq: "error"
     }
   },

@@ -93,7 +93,7 @@ export default function Header() {
             variant="outline"
             className={cn("bg-transparent transition-all duration-300", !scrolled && "hover:bg-primary hover:text-white duration-300 transition-all")}
             asChild>
-            <Link href="/get-started">GET STARTED</Link>
+            <Link href="/signin">GET STARTED</Link>
           </Button>
 
           <Button

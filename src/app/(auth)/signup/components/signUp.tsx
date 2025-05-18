@@ -26,6 +26,8 @@ export default function SignIn() {
         <Image
           src="https://images.unsplash.com/photo-1615454782617-e69bbd4f2969?q=80&w=1656&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Image"
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.5]"
         />

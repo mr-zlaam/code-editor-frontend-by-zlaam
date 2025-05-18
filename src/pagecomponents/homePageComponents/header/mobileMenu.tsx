@@ -102,7 +102,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps): JSX.Element {
                   className="w-full bg-primary hover:bg-primary/90"
                   onClick={onClose}
                   asChild>
-                  <Link href="/get-started">GET STARTED</Link>
+                  <Link href="/signin">GET STARTED</Link>
                 </Button>
                 <Button
                   variant="outline"
