@@ -12,7 +12,14 @@ import { useForm } from "react-hook-form";
 import { signInSchema, type UserSignInTypes } from "@/validation/signInValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DivWrapper from "@/appComponents/divWrapper/devWrapper";
+import { instance } from "@/axios";
+import { useMessage } from "@/hooks/useMessage";
+import type { RESPONSE_ERR } from "@/types";
+import { useRouter } from "next/navigation";
+import { useLoading } from "@/hooks/useLoading";
+import { ImSpinner8 } from "react-icons/im";
 export function SignInForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -20,11 +27,45 @@ export function SignInForm({ className, ...props }: React.ComponentPropsWithoutR
     formState: { errors }
   } = useForm<UserSignInTypes>({ resolver: zodResolver(signInSchema) });
   const [showPassword, setShowPassword] = useState(false);
-  const handleSignIn = (data: UserSignInTypes) => {
-    const hero = false;
-    console.info(data);
-    if (hero) {
-      reset();
+  const { startLoading, stopLoading, isLoading } = useLoading();
+  const message = useMessage();
+  const handleSignIn = async (data: UserSignInTypes) => {
+    try {
+      startLoading();
+      const response = await instance.post("/user/loginUser", data);
+      if (response.status === 200) {
+        reset();
+        stopLoading();
+        message.successMessage("user logged in successfully", undefined, 3000);
+        router.push("/");
+      }
+    } catch (error: unknown) {
+      stopLoading();
+      const err = error as RESPONSE_ERR;
+      if (error instanceof Error) {
+        if (err.response.status === 403) {
+          message.errorMessage("Please verify your email first", undefined, 3000);
+          return router.push("/resetAndUpdateNewPassword");
+        }
+        if (err.response.status === 429) {
+          message.errorMessage("Too many request please try again after sometime");
+          return;
+        }
+        if (err.response.status >= 500) {
+          message.errorMessage("We can't login you for some unknown reason");
+          return;
+        }
+
+        if (err.response.status >= 401) {
+          message.errorMessage("Invalid credentials");
+          return;
+        }
+      }
+      message.errorMessage("Something went wrong while logging in");
+      console.error(error);
+      return;
+    } finally {
+      stopLoading();
     }
   };
   return (
@@ -72,9 +113,10 @@ export function SignInForm({ className, ...props }: React.ComponentPropsWithoutR
           </DivWrapper>
         </div>
         <Button
-          type="button"
+          type="submit"
+          disabled={isLoading}
           className="w-full cursor-pointer">
-          Login
+          {isLoading ? <ImSpinner8 className="animate-spin" /> : <span>Login</span>}
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
