@@ -18,6 +18,7 @@ export interface RESPONSE_ERR {
       status: number;
       error: string;
       details: Record<"message", string>[];
+      message: string;
     };
     status: number;
   };

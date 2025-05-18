@@ -17,9 +17,7 @@ import { useMessage } from "@/hooks/useMessage";
 import DivWrapper from "@/appComponents/divWrapper/devWrapper";
 import { instance } from "@/axios";
 import { useLoading } from "@/hooks/useLoading";
-import { useRouter } from "next/navigation";
 export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
-  const router = useRouter();
   const { errorMessage, successMessage } = useMessage();
   const {
     register,
@@ -39,7 +37,6 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
       if (response.status === 200) {
         successMessage("Please Check Your Email To Verify Your Account", "top-center", 100000);
         stopLoading();
-        router.push("/");
         reset();
       }
       return response;
@@ -47,7 +44,11 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
       stopLoading();
       const error = err as RESPONSE_ERR;
       if (err instanceof Error) {
-        console.info(error?.response?.data?.details);
+        if (error.response.status === 409) {
+          errorMessage(error?.response?.data?.message || "User already exist");
+          return;
+        }
+        console.info(error?.response?.data?.message);
         errorMessage("Unable to create an account. Please try again");
         return;
       }
