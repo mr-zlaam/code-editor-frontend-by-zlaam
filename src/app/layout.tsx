@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
 import { Poppins } from "next/font/google";
 import "../styles/custom.css";
 import "./globals.css";
@@ -39,6 +40,13 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning>
       <body className={`${fontVariable.variable} ${fontStyle.variable} antialiased`}>
+        <NextTopLoader
+          showSpinner={false}
+          color="#8d8dff"
+          height={4}
+          crawl
+          zIndex={999}
+        />
         <main>
           <Toaster />
           {children}
