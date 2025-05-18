@@ -45,7 +45,7 @@ export function SignInForm({ className, ...props }: React.ComponentPropsWithoutR
       if (error instanceof Error) {
         if (err.response.status === 403) {
           message.errorMessage("Please verify your email first", undefined, 3000);
-          return router.push("/resetAndUpdateNewPassword");
+          return router.push("/sendMeVerificationToken");
         }
         if (err.response.status === 429) {
           message.errorMessage("Too many request please try again after sometime");
@@ -79,7 +79,14 @@ export function SignInForm({ className, ...props }: React.ComponentPropsWithoutR
       </div>
       <div className="grid gap-6">
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
+          <div className="flex items-center ">
+            <Label htmlFor="email">Email</Label>
+            <Link
+              href="/sendMeVerificationToken"
+              className="ml-auto text-sm underline-offset-4 hover:underline">
+              Resend OTP?
+            </Link>
+          </div>
           <Input
             id="email"
             type="email"

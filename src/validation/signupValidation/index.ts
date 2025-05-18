@@ -9,6 +9,7 @@ export const signUpSchema: ZodType<UserSignUpTypes> = object({
     .regex(new RegExp(/^[a-z0-9_.]{1,20}$/), {
       message: "Only underscore_, numbers and lowercase letters are allowed."
     })
+    .trim()
     .toLowerCase(),
   fullName: string()
     .min(1, { message: "full Name is required" })
@@ -16,13 +17,15 @@ export const signUpSchema: ZodType<UserSignUpTypes> = object({
     .max(50, { message: "full Name is too long" })
     .regex(new RegExp(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/), {
       message: "full name is invalid"
-    }),
+    })
+    .trim(),
   email: string()
     .min(1, { message: "email is required" })
     .min(4, { message: "email must contain atleast 4 characters" })
     .max(200, { message: "email is too long" })
     .email({ message: "email is not valid" })
-    .toLowerCase(),
+    .toLowerCase()
+    .trim(),
   password: string()
     .min(1, { message: "password is required" })
     .min(6, { message: "password must contain at least 6 characters" })
